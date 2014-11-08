@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.github.orolle</groupId>
+  <artifactId>SMC</artifactId>
+  <version>6.4.0</version>
+  <packaging>pom</packaging>
+
+  <name>SMC</name>
+  <url>http://maven.apache.org</url>
+  
+  
+  <licenses>
+    <license>
+      <name>Mozilla Public License 1.1</name>
+      <url>http://www.mozilla.org/MPL/</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <modules>
+    <module>smc-generator</module>
+    <module>smc-model</module>
+    <module>smc-parser</module>
+    <module>smc-core</module>
+    <module>smc-lib-java</module>
+    <module>smc-maven-plugin</module>
+  </modules>
+  
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus snapshot repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Sonatype Nexus release repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+  
+  <scm>
+    <connection>scm:git:git://github.com/orolle/SMC.git</connection>
+    <developerConnection>scm:git:git@github.com:orolle/SMC.git</developerConnection>
+    <url>http://github.com/orolle/SMC</url>
+  </scm>
+
+</project>
