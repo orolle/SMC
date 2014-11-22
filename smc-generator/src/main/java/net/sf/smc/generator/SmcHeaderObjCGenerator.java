@@ -350,14 +350,12 @@ public final class SmcHeaderObjCGenerator
      * Generates the map class declaration and then the state
      * classes:
      * <code>
-     *   <pre>
      * class <i>map name</i>
      * {
      * public:
      *
      *     static <i>map name</i>_<i>state name</i> <i>state name</i>;
      * };
-     *   </pre>
      * </code>
      * @param map emit Objective C header code for this map.
     */
@@ -443,7 +441,6 @@ public final class SmcHeaderObjCGenerator
     /**
      * Generates the state class declaration.
      * <code>
-     *   <pre>
      * {@literal @interface} <i>map name</i>_<i>state name</i> : <i>map name</i>_Default
      * {
      * }
@@ -451,7 +448,6 @@ public final class SmcHeaderObjCGenerator
      * (declare the transition methods.)
      * - (void)<i>transition name</i>:(<i>context</i>*)context <i>args</i>;
      * {@literal @end}
-     *   </pre>
      * </code>
      * @param state emits Objective C header code for this state.
      */
@@ -512,9 +508,7 @@ public final class SmcHeaderObjCGenerator
     /**
      * Generates the transition method declaration:
      * <code>
-     *   <pre>
      * - (void)<i>transition name</i>:(<i>context</i>Context*)context <i>args</i>;
-     *   </pre>
      * </code>
      * @param transition emits Groovy code for this state transition.
      */

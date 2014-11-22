@@ -28,7 +28,6 @@ import java.io.File;
 
 /**
  * Generates the Java sources from the *.sm files.
- * <p/>
  *
  * @author <a href="jerome@coffeebreaks.org">Jerome Lacoste</a>
  * @version $Id: SmcMojo.java 1800 2006-04-07 17:12:14Z lacostej $

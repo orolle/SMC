@@ -1,63 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.github.orolle</groupId>
-  <artifactId>SMC</artifactId>
-  <version>6.4.0</version>
-  <packaging>pom</packaging>
+	<groupId>com.github.orolle</groupId>
+	<artifactId>SMC</artifactId>
+	<version>6.4.0</version>
+	<packaging>pom</packaging>
 
-  <name>SMC</name>
-  <url>http://maven.apache.org</url>
-  
-  
-  <licenses>
-    <license>
-      <name>Mozilla Public License 1.1</name>
-      <url>http://www.mozilla.org/MPL/</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  
-  <scm>
-    <connection>scm:git:git@github.com:orolle/SMC.git</connection>
-    <developerConnection>scm:git:git@github.com:orolle/SMC.git</developerConnection>
-    <url>git@github.com:orolle/SMC</url>
-  </scm>
+	<name>SMC</name>
+	<url>http://maven.apache.org</url>
+	<description>Fork of State Machine Compiler (SMC). It generates state machines.</description>
+
+	<developers>
+		<developer>
+			<name>Oliver Rolle</name>
+			<url>https://www.github.com/orolle</url>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>Mozilla Public License 1.1</name>
+			<url>http://www.mozilla.org/MPL/</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:orolle/SMC.git</connection>
+		<developerConnection>scm:git:git@github.com:orolle/SMC.git</developerConnection>
+		<url>git@github.com:orolle/SMC</url>
+	</scm>
 
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>http://github.com/orolle/SMC/issues</url>
+	</issueManagement>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <modules>
-    <module>smc-generator</module>
-    <module>smc-model</module>
-    <module>smc-parser</module>
-    <module>smc-core</module>
-    <module>smc-lib-java</module>
-    <module>smc-maven-plugin</module>
-  </modules>
-  
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus snapshot repository</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Sonatype Nexus release repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
-  
+	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<modules>
+		<module>smc-generator</module>
+		<module>smc-model</module>
+		<module>smc-parser</module>
+		<module>smc-core</module>
+		<module>smc-lib-java</module>
+		<module>smc-maven-plugin</module>
+	</modules>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus snapshot repository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Sonatype Nexus release repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

@@ -46,7 +46,7 @@ package net.sf.smc.model;
  * those FSM elements it needs to process. Visiting is
  * started by calling {@link net.sf.smc.model.SmcFSM#accept} and
  * passing in the application's visitor instance. See
- * {@link net.sf.smc.generator.SmcCodeGenerator} for an
+ * see net.sf.smc.generator.SmcCodeGenerator for an
  * example.
  * <p>
  * All visit methods are explicity defined and do nothing.

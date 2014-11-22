@@ -91,7 +91,6 @@ public final class SmcCppGenerator
      * Emits C++ code for the finite state machine.
      * This method generates the following code:
      * <code>
-     *   <pre>
      * %{ %} raw source code - if any
      *
      * #include <i>%include header file</i>
@@ -106,7 +105,6 @@ public final class SmcCppGenerator
     //
     // Static class declarations.
     // <i>map name</i>_<i>state name</i> <i>map name</i>::<i>state</i>("<i>map name</i>::<i>state name</i>", <i>index</i>)
-     *   </pre>
      * </code>
      * @param fsm emit C# code for this finite state machine.
      */

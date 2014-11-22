@@ -583,14 +583,12 @@ public final class SmcHeaderGenerator
      * Generates the map class declaration and then the state
      * classes:
      * <code>
-     *   <pre>
      * class <i>map name</i>
      * {
      * public:
      *
      *     static <i>map name</i>_<i>state name</i> <i>state name</i>;
      * };
-     *   </pre>
      * </code>
      * @param map emit C++ header code for this map.
      */
@@ -703,7 +701,6 @@ public final class SmcHeaderGenerator
     /**
      * Generates the state's class declaration:
      * <code>
-     *   <pre>
      * class <i>map name</i>_<i>state name</i> :
      *     public <i>map name</i>_Default
      * {
@@ -714,9 +711,8 @@ public final class SmcHeaderGenerator
      *     {};
      *
      *     (declare the transition methods.)
-     *     void <i>transition name</i>(<i>context</i>& context, <i>args</i>);
+     *     void <i>transition name</i>(<i>context</i> context, <i>args</i>);
      * };
-     *   </pre>
      * </code>
      * @param state emits C++ header code for this state.
      */
@@ -795,9 +791,7 @@ public final class SmcHeaderGenerator
     /**
      * Generates the transition method declaration:
      * <code>
-     *   <pre>
      * void <i>transition name</i>(<i>context</i>Context&amp; context, <i>args</i>);
-     *   </pre>
      * </code>
      * @param transition emits C++ header code for this state
      * transition.

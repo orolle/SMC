@@ -91,18 +91,14 @@ public final class SmcCGenerator
     /**
      * Emits the following C code for the FSM:
      * <code>
-     *   <pre>
      * %{ %} raw source code - if any
      *
      * #include &lt;%include header file&gt;
      * #include "<i>context</i>.h"
-     *   </pre>
      * </code>
      * If the -headerd option is used, then this is generated:
      * <code>
-     *   <pre>
      * #include "<i>header dir</i>/<i>context</i>.h")
-     *   </pre>
      * </code>
      * @param fsm Emit code for this finite state machine.
      */
@@ -1331,9 +1327,7 @@ public final class SmcCGenerator
      * Emits C code for this FSM action. The emitted C code has
      * the format:
      * <code>
-     *   <pre>
      * <i>action</i>(ctxt[, <i>arg0</i>, ... , <i>argn</i>]);
-     *   </pre>
      * </code>
      * @param action emit C code for this action.
      */
@@ -1375,9 +1369,7 @@ public final class SmcCGenerator
      * Emits C code for this transition parameter. The emitted
      * C code has the format:
      * <code>
-     *   <pre>
      * <i>type</i> <i>name</i>
-     *   </pre>
      * </code>
      * @param parameter emit C code for this transition
      * parameter.

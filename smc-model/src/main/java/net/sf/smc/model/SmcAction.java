@@ -222,7 +222,7 @@ public final class SmcAction
     } // end of isProperty()
     
     /**
-    * Returns {@code true} if this action is a static member.
+    * @return Returns {@code true} if this action is a static member.
     * Returns {@code false} if this action is an instance member.
     */
     public boolean isStatic()

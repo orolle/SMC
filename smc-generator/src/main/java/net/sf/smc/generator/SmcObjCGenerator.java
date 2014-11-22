@@ -92,12 +92,10 @@ public final class SmcObjCGenerator
      * Emits Objective C code for the finite state machine.
      * Generates the following code:
      * <code>
-     *   <pre>
      * %{ %} raw source code - if any
      *
      * #import <i>%include header file</i>
      * #import "<i>context</i>.<i>hsuffix</i>"
-     *   </pre>
      * </code>
      * @param fsm emit Objective C code for this finite state
      * machine.

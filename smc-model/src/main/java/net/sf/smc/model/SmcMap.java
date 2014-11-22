@@ -42,7 +42,7 @@ import java.util.List;
 
 /**
  * SMC has states grouped into maps. This class contains
- * {@link net.sf.smc.model.SmcState states} in a list and
+ * {@link net.sf.smc.model.SmcState} states in a list and
  * stores the default state separately (if there is one).
  *
  * @see net.sf.smc.model.SmcFSM
@@ -62,6 +62,9 @@ public final class SmcMap
     //
 
     /**
+     * @param name if the state machine
+     * @param lineNumber number of the line
+     * @param fsm the FSM
      * Creates a state machine map with the given name, line
      * number and finite state machine.
      */
@@ -124,6 +127,7 @@ public final class SmcMap
     } // end of getSattes()
 
     /**
+     * @param state of the FSM
      * Returns {@code true} if the state is in the list and
      * {@code false} otherwise.
      * @return {@code true} if the state is in the list and
@@ -151,6 +155,7 @@ public final class SmcMap
     } // end of findState(SmcState)
 
     /**
+     * @param stateName
      * Returns {@code true} if this map contains the nsamed
      * state; {@code false} otherwise.
      * @return {@code true} if this map contains the nsamed

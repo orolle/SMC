@@ -65,7 +65,7 @@ import net.sf.smc.parser.SmcParser.TargetLanguage;
  *   <li>
  *     If this is Java code generation that the .sm fle and the
  *     context class have the same name.
- *     <br/>
+ *     <br>
  *     (Note: Removed as of v. 6.1.0 due to addition of %fsmclass
         feature).
  *   </li>

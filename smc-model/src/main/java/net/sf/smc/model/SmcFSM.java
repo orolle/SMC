@@ -283,6 +283,7 @@ public final class SmcFSM
     } // end of getAccessLevel()
 
     /**
+     * @param name of the map
      * Returns the named map. May return {@code null}.
      * @return the named map.
      */
