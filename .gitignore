@@ -9,6 +9,7 @@
 .gradle/
 build/
 */target/*
+**/target/*
 
 mods/
 /smc-generator/nbproject/
