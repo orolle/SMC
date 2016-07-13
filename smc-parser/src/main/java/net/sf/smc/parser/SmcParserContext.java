@@ -169,11 +169,7 @@ package net.sf.smc.parser;
 import java.util.List;
 import net.sf.smc.model.SmcAction;
 import net.sf.smc.model.SmcElement.TransType;
-import net.sf.smc.model.SmcFSM;
-import net.sf.smc.model.SmcGuard;
-import net.sf.smc.model.SmcMap;
 import net.sf.smc.model.SmcParameter;
-import net.sf.smc.model.SmcTransition;
 import net.sf.smc.parser.SmcParser.TargetLanguage;
 
 public class SmcParserContext

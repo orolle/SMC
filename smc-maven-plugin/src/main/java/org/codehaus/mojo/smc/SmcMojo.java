@@ -15,16 +15,16 @@ package org.codehaus.mojo.smc;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
-
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.io.IOException;
-import java.io.File;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Generates the Java sources from the *.sm files.
@@ -35,151 +35,176 @@ import java.io.File;
  * @phase generate-sources
  * @requiresProject
  * @requiresDependencyResolution
- * @see <a href="http://www.intellij.org/twiki/bin/view/Main/IntelliJUIDesignerFAQ">ui designer Ant tasks documentation</a>.
+ * @see <a href="http://www.intellij.org/twiki/bin/view/Main/IntelliJUIDesignerFAQ">ui designer Ant tasks
+ * documentation</a>.
  */
+//@Mojo(name = "compile", defaultPhase = LifecyclePhase.GENERATE_SOURCES, inheritByDefault = true)
 public class SmcMojo
-        extends AbstractMojo {
-    /**
-     * Project.
-     *
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
-     */
-    private MavenProject project;
+  extends AbstractMojo {
 
-    /**
-     * Source directory containing the *.sm files.
-     *
-     * @parameter expression="${project.basedir}/src/main/smc"
-     * @required
-     */
-    private File sourceDirectory;
+  /**
+   * Project.
+   *
+   * @parameter expression="${project}"
+   * @required
+   * @readonly
+   */
+  private MavenProject project;
 
-    /**
-     * The directory will be added as Project's Resource.
-     *
-     * @parameter expression="${outputDirectory}" default-value="${project.build.directory}/generated-sources/smc/smc"
-     * @required
-     */
-    private File outputDirectory;
+  /**
+   * Source directory containing the *.sm files.
+   *
+   * @parameter expression="${project.basedir}/src/main/smc"
+   * @required
+   */
+  private File sourceDirectory;
 
-    /**
-     * Fork the compilation task.
-     *
-     * @parameter expression="${fork}" default-value="false"
-     * @required
-     */
-    private boolean fork;
+  /**
+   * The directory will be added as Project's Resource.
+   *
+   * @parameter expression="${outputDirectory}" default-value="${project.build.directory}/generated-sources/smc"
+   * @required
+   */
+  private File outputDirectory;
 
-    /**
-     * Fail on error ?
-     *
-     * @parameter expression="${failOnError}" default-value="true"
-     * @required
-     */
-    private boolean failOnError;
+  /**
+   * Fork the compilation task.
+   *
+   * @parameter expression="${fork}" default-value="false"
+   * @required
+   */
+  private boolean fork;
 
-    /**
-     * Enable debug.
-     *
-     * @parameter expression="${debug}" default-value="false"
-     */
-    private boolean debug;
+  /**
+   * RxJava state machine.
+   *
+   * @parameter expression="${fork}" default-value="false"
+   * @required
+   */
+  private boolean rx;
 
-    /**
-     * Enable verbose.
-     *
-     * @parameter expression="${verbose}" default-value="false"
-     */
-    private boolean verbose;
+  /**
+   * Fail on error ?
+   *
+   * @parameter expression="${failOnError}" default-value="true"
+   * @required
+   */
+  private boolean failOnError;
 
-    /**
-     * Enable sync.
-     *
-     * @parameter expression="${sync}" default-value="false"
-     */
-    private boolean sync;
+  /**
+   * Enable debug.
+   *
+   * @parameter expression="${debug}" default-value="false"
+   */
+  private boolean debug;
 
-    public void execute()
-            throws MojoExecutionException {
+  /**
+   * Enable verbose.
+   *
+   * @parameter expression="${verbose}" default-value="false"
+   */
+  private boolean verbose;
 
-        if (!sourceDirectory.exists()) {
-            getLog().error("sourceDirectory " + sourceDirectory + " doesn't exist.");
-            return;
-        }
-        if (!sourceDirectory.isDirectory()) {
-            throw new MojoExecutionException("sourceDirectory " + sourceDirectory + " isn't a directory");
-        }
-        List files;
-        try {
-            files = Util.getSmFiles(sourceDirectory);
-        } catch (IOException e) {
-            throw new MojoExecutionException("Couldn't find the .sm files in " + sourceDirectory, e);
-        }
+  /**
+   * Enable sync.
+   *
+   * @parameter expression="${sync}" default-value="false"
+   */
+  private boolean sync;
 
-        getLog().debug("Found " + files.size() + " .sm file(s) to process.");
-        for (int i = 0; i < files.size(); i++) {
-            File smFile = (File) files.get(i);
-            getLog().debug("Handling " + smFile);
-            Properties properties;
-            String classPackage = null;
-            String theClass = null;
-            try {
-                properties = Util.getSmFileHeader(smFile);
-                classPackage = properties.getProperty("package");
-                theClass = properties.getProperty("class");
-            } catch (IOException e) {
-                getLog().error("Couldn't identify the package for file " + smFile.getAbsolutePath(), e);
-            }
-            if (classPackage != null) {
-                classPackage = classPackage.replace(".", File.separator);
-            }
-            File theOutputDirectory = new File(outputDirectory + File.separator
-                    + classPackage);
+  /**
+   * Enable serialization.
+   *
+   * @parameter expression="${serial}" default-value="false"
+   */
+  private boolean serial;
 
-            if (! theOutputDirectory.exists() && ! theOutputDirectory.mkdirs()) {
-                getLog().warn("the destination directory (" + theOutputDirectory
-                        + ") for file " + smFile.getAbsolutePath()
-                        + "  doesn't exist and couldn't be created. The goal with probably fail.");
-            }
+  public void execute()
+    throws MojoExecutionException {
 
-            if (theClass != null) {
-                File file = new File(theOutputDirectory, theClass + "Context.java");
-                if (file.exists() && file.lastModified() > smFile.lastModified()) {
-                    getLog().debug("Skipping regeneration of " + file + " as it is newer than " + smFile);
-                    continue;
-                }
-            } else {
-                getLog().warn("Didn't identify the %class from the .sm file");
-            }
-
-            List arguments = new ArrayList();
-            arguments.add("-ret"); // critical otherwise Smc does a System.exit().
-            arguments.add("-d");
-            arguments.add(theOutputDirectory.getAbsolutePath());
-            if (sync) {
-                arguments.add("-sync");
-            }
-            if (verbose) {
-                arguments.add("-verbose");
-            }
-            arguments.add("-java");
-            arguments.add(smFile.getAbsolutePath());
-
-            executeSmc(arguments);
-        }
-
-        getLog().debug("Adding outputDirectory to source root: " + outputDirectory);
-        this.project.addCompileSourceRoot(outputDirectory.getAbsolutePath());
+    if (!sourceDirectory.exists()) {
+      getLog().error("sourceDirectory " + sourceDirectory + " doesn't exist.");
+      return;
+    }
+    if (!sourceDirectory.isDirectory()) {
+      throw new MojoExecutionException("sourceDirectory " + sourceDirectory + " isn't a directory");
+    }
+    List files;
+    try {
+      files = Util.getSmFiles(sourceDirectory);
+    } catch (IOException e) {
+      throw new MojoExecutionException("Couldn't find the .sm files in " + sourceDirectory, e);
     }
 
-    private void executeSmc(List arguments) throws MojoExecutionException {
-        try {
-            Util.executeSmc(arguments, getLog());
-        } catch (Exception e) {
-            throw new MojoExecutionException("Failure to execute Smc", e);
+    getLog().debug("Found " + files.size() + " .sm file(s) to process.");
+    for (int i = 0; i < files.size(); i++) {
+      File smFile = (File) files.get(i);
+      getLog().debug("Handling " + smFile);
+      Properties properties;
+      String classPackage = null;
+      String theClass = null;
+      try {
+        properties = Util.getSmFileHeader(smFile);
+        classPackage = properties.getProperty("package");
+        theClass = properties.getProperty("class");
+      } catch (IOException e) {
+        getLog().error("Couldn't identify the package for file " + smFile.getAbsolutePath(), e);
+      }
+      if (classPackage != null) {
+        classPackage = classPackage.replace(".", File.separator);
+      }
+      File theOutputDirectory = new File(outputDirectory + File.separator
+        + classPackage);
+
+      if (!theOutputDirectory.exists() && !theOutputDirectory.mkdirs()) {
+        getLog().warn("the destination directory (" + theOutputDirectory
+          + ") for file " + smFile.getAbsolutePath()
+          + "  doesn't exist and couldn't be created. The goal with probably fail.");
+      }
+
+      if (theClass != null) {
+        File file = new File(theOutputDirectory, theClass + "Context.java");
+        if (file.exists() && file.lastModified() > smFile.lastModified()) {
+          getLog().debug("Skipping regeneration of " + file + " as it is newer than " + smFile);
+          continue;
         }
+      } else {
+        getLog().warn("Didn't identify the %class from the .sm file");
+      }
+
+      List arguments = new ArrayList();
+      arguments.add("-ret"); // critical otherwise Smc does a System.exit().
+      arguments.add("-d");
+      arguments.add(theOutputDirectory.getAbsolutePath());
+      if (sync) {
+        arguments.add("-sync");
+      }
+      if (verbose) {
+        arguments.add("-verbose");
+      }
+      if (serial) {
+        arguments.add("-serial");
+      }
+      if(rx) {
+        arguments.add("-rxjava");
+      } else {
+        arguments.add("-java");
+      }
+      arguments.add(smFile.getAbsolutePath());
+
+      executeSmc(arguments);
     }
+
+    getLog().debug("Adding outputDirectory to source root: " + outputDirectory);
+    this.project.addCompileSourceRoot(outputDirectory.getAbsolutePath());
+  }
+
+  private void executeSmc(List arguments) throws MojoExecutionException {
+    try {
+      Util.executeSmc(arguments, getLog());
+    } catch (Exception e) {
+      throw new MojoExecutionException("Failure to execute Smc", e);
+    }
+  }
 
 }

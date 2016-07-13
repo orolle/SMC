@@ -5,7 +5,7 @@
 
 	<groupId>com.github.orolle</groupId>
 	<artifactId>SMC</artifactId>
-	<version>6.4.0</version>
+	<version>6.4.0_rx_b1</version>
 	<packaging>pom</packaging>
 
 	<name>SMC</name>
@@ -58,6 +58,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+  
 	<modules>
 		<module>smc-generator</module>
 		<module>smc-model</module>
@@ -65,6 +66,7 @@
 		<module>smc-core</module>
 		<module>smc-lib-java</module>
 		<module>smc-maven-plugin</module>
+	 <module>smc-lib-rxjava</module>
 	</modules>
 
 	<distributionManagement>

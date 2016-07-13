@@ -49,33 +49,30 @@ package net.sf.smc;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
-
 import net.sf.smc.generator.SmcCGenerator;
+import net.sf.smc.generator.SmcCSharpGenerator;
 import net.sf.smc.generator.SmcCodeGenerator;
 import net.sf.smc.generator.SmcCppGenerator;
-import net.sf.smc.generator.SmcCSharpGenerator;
 import net.sf.smc.generator.SmcGraphGenerator;
 import net.sf.smc.generator.SmcGroovyGenerator;
-import net.sf.smc.generator.SmcHeaderGenerator;
 import net.sf.smc.generator.SmcHeaderCGenerator;
+import net.sf.smc.generator.SmcHeaderGenerator;
 import net.sf.smc.generator.SmcHeaderObjCGenerator;
-import net.sf.smc.generator.SmcJavaGenerator;
 import net.sf.smc.generator.SmcJSGenerator;
+import net.sf.smc.generator.SmcJavaGenerator;
 import net.sf.smc.generator.SmcLuaGenerator;
 import net.sf.smc.generator.SmcObjCGenerator;
 import net.sf.smc.generator.SmcOptions;
@@ -83,6 +80,7 @@ import net.sf.smc.generator.SmcPerlGenerator;
 import net.sf.smc.generator.SmcPhpGenerator;
 import net.sf.smc.generator.SmcPythonGenerator;
 import net.sf.smc.generator.SmcRubyGenerator;
+import net.sf.smc.generator.SmcRxJavaGenerator;
 import net.sf.smc.generator.SmcScalaGenerator;
 import net.sf.smc.generator.SmcTableGenerator;
 import net.sf.smc.generator.SmcTclGenerator;
@@ -1122,7 +1120,7 @@ public final class Smc
         stream.print(" [-hsuffix suffix]");
         stream.print(" [-glevel int]");
         stream.print(
-            " {-c | -c++ | -csharp | -graph | -groovy | -java | -js ");
+            " {-c | -c++ | -csharp | -graph | -groovy | -java | -rxjava | -js ");
         stream.print(
             "-lua | -objc | -perl | -php | -python | -ruby | ");
         stream.print("-scala | -table |-tcl | -vb}");
@@ -1205,6 +1203,7 @@ public final class Smc
         stream.println("\t-graph    Generate GraphViz DOT file");
         stream.println("\t-groovy   Generate Groovy code");
         stream.println("\t-java     Generate Java code");
+        stream.println("\t-rxjava   Generate RxJava code");
         stream.println("\t-js       Generate JavaScript code");
         stream.println("\t-lua      Generate Lua code");
         stream.println("\t-objc     Generate Objective-C code");
@@ -1764,6 +1763,13 @@ public final class Smc
                 "Java",
                 SmcJavaGenerator.class,
                 null);
+        _languages[TargetLanguage.RXJAVA.ordinal()] =
+            new Language(
+                TargetLanguage.RXJAVA,
+                "-rxjava",
+                "Java",
+                SmcRxJavaGenerator.class,
+                null);
         _languages[TargetLanguage.GRAPH.ordinal()] =
             new Language(
                 TargetLanguage.GRAPH,
@@ -1913,6 +1919,7 @@ public final class Smc
         // The -access option.
         languages = new ArrayList<Language>();
         languages.add(_languages[TargetLanguage.JAVA.ordinal()]);
+        languages.add(_languages[TargetLanguage.RXJAVA.ordinal()]);
         _optionMap.put(ACCESS_FLAG, languages);
 
         // Languages using a header file.
@@ -1927,6 +1934,7 @@ public final class Smc
         languages = new ArrayList<Language>();
         languages.add(_languages[TargetLanguage.C_SHARP.ordinal()]);
         languages.add(_languages[TargetLanguage.JAVA.ordinal()]);
+        languages.add(_languages[TargetLanguage.RXJAVA.ordinal()]);
         languages.add(_languages[TargetLanguage.VB.ordinal()]);
         languages.add(_languages[TargetLanguage.GROOVY.ordinal()]);
         languages.add(_languages[TargetLanguage.SCALA.ordinal()]);
@@ -1936,6 +1944,7 @@ public final class Smc
         languages = new ArrayList<Language>();
         languages.add(_languages[TargetLanguage.C_SHARP.ordinal()]);
         languages.add(_languages[TargetLanguage.JAVA.ordinal()]);
+        languages.add(_languages[TargetLanguage.RXJAVA.ordinal()]);
         languages.add(_languages[TargetLanguage.JS.ordinal()]);
         languages.add(_languages[TargetLanguage.VB.ordinal()]);
         languages.add(_languages[TargetLanguage.TCL.ordinal()]);
@@ -1952,6 +1961,7 @@ public final class Smc
         languages = new ArrayList<Language>();
         languages.add(_languages[TargetLanguage.C_SHARP.ordinal()]);
         languages.add(_languages[TargetLanguage.JAVA.ordinal()]);
+        languages.add(_languages[TargetLanguage.RXJAVA.ordinal()]);
         languages.add(_languages[TargetLanguage.VB.ordinal()]);
         languages.add(_languages[TargetLanguage.TCL.ordinal()]);
         languages.add(_languages[TargetLanguage.C_PLUS_PLUS.ordinal()]);
@@ -1968,12 +1978,14 @@ public final class Smc
         languages = new ArrayList<Language>();
         languages.add(_languages[TargetLanguage.C_SHARP.ordinal()]);
         languages.add(_languages[TargetLanguage.JAVA.ordinal()]);
+        languages.add(_languages[TargetLanguage.RXJAVA.ordinal()]);
         languages.add(_languages[TargetLanguage.VB.ordinal()]);
         _optionMap.put(GENERIC_FLAG, languages);
 
         // The -generic7 option.
         languages = new ArrayList<Language>();
         languages.add(_languages[TargetLanguage.JAVA.ordinal()]);
+        languages.add(_languages[TargetLanguage.RXJAVA.ordinal()]);
         _optionMap.put(GENERIC7_FLAG, languages);
 
         // Define the allowed access level keywords for each language

@@ -51,7 +51,7 @@ import java.util.EmptyStackException;
  */
 
 public abstract class FSMContext
-    implements Serializable
+  implements Serializable
 {
 //---------------------------------------------------------------
 // Member functions
@@ -66,17 +66,21 @@ public abstract class FSMContext
      * initial state.
      * @param initState the finite state machine's start state.
      */
-    protected FSMContext(State initState)
+  protected FSMContext(State initState)
     {
-        _name = "FSMContext";
-        _state = initState;
-        _transition = "";
-        _previousState = null;
-        _stateStack = null;
-        _debugFlag = false;
-        _debugStream = System.err;
-        _listeners = new PropertyChangeSupport(this);
+    reset(initState);
     } // end of FSMContext(State)
+
+  protected void reset(State initState) {
+    _name = "FSMContext";
+    _state = initState;
+    _transition = "";
+    _previousState = null;
+    _stateStack = null;
+    _debugFlag = false;
+    _debugStream = System.err;
+    _listeners = new PropertyChangeSupport(this);
+  }
 
     //
     // end of Constructors.
@@ -426,6 +430,15 @@ public abstract class FSMContext
         return;
     } // end of removeStateChangeListener(PropertyChangeListener)
 
+  /*
+   * public JsonObject serialize() { return
+   * SerializerFactory.getSerializer(this.getClass()).serializeToObject(this); }
+   * 
+   * @SuppressWarnings("unchecked") public static <SM> SM deserialize(JsonObject
+   * o) { return (SM)
+   * SerializerFactory.getSerializer(FSMContext.class).deserializeObject(o,
+   * FSMContext.class); }
+   */
 //---------------------------------------------------------------
 // Member data
 //
@@ -433,45 +446,45 @@ public abstract class FSMContext
     /**
      * The FSM name.
      */
-    transient protected String _name;
+  protected String _name;
 
     /**
      * The current state. Will be {@code null} while in
      * transition.
      */
-    transient protected State _state;
+  protected State _state;
 
     /**
      * The current transition name. Used for debugging
      * purposes. Will be en empty string when not in
      * transition.
      */
-    transient protected String _transition;
+  protected String _transition;
 
     /**
      * Stores which state a transition left. May be {@code null}.
      */
-    transient protected State _previousState;
+  protected State _previousState;
 
     /**
      * This stack is used to store the current state when a push
      * transition is taken.
      */
-    transient protected java.util.Stack<State> _stateStack;
+  protected java.util.Stack<State> _stateStack;
 
     /**
      * When this flag is set to {@code true}, this class will
      * print out debug messages.
      */
-    transient protected boolean _debugFlag;
+  protected boolean _debugFlag;
 
     /**
      * Write debug output to this stream.
      */
-    transient protected PrintStream _debugStream;
+  protected PrintStream _debugStream;
 
-    // Stores the property change listeners here.
-    transient private PropertyChangeSupport _listeners;
+  // Stores the property change listeners here.
+  protected PropertyChangeSupport _listeners;
 
     //-----------------------------------------------------------
     // Constants.

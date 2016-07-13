@@ -11,3 +11,4 @@ build/
 */target/*
 
 mods/
+/smc-generator/nbproject/

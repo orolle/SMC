@@ -16,13 +16,12 @@ package org.codehaus.mojo.smc;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringOutputStream;
-import org.apache.maven.plugin.logging.Log;
-
+import java.io.*;
 import java.util.List;
 import java.util.Properties;
-import java.io.*;
+import org.apache.maven.plugin.logging.Log;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringOutputStream;
 
 /**
  * Util functions for the smc plugin

@@ -5,11 +5,10 @@
 	<parent>
 		<groupId>com.github.orolle</groupId>
 		<artifactId>SMC</artifactId>
-		<version>6.4.0</version>
+		<version>6.4.0_rx_b1</version>
 	</parent>
-	<groupId>com.github.orolle</groupId>
+
 	<artifactId>smc-model</artifactId>
-	<version>6.4.0</version>
 	<name>smc-model</name>
 	<url>http://maven.apache.org</url>
 

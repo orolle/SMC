@@ -16,6 +16,12 @@ package org.codehaus.mojo.smc;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
@@ -24,11 +30,6 @@ import org.codehaus.doxia.site.renderer.SiteRenderer;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-
 /**
  * Generate graphes and HTML tables for the various smc state diagrams.
  *
@@ -36,6 +37,7 @@ import java.util.*;
  * @goal smcreports
  * @execute phase="generate-sources"
  */
+//@Mojo(name = "report", defaultPhase = LifecyclePhase.GENERATE_SOURCES, inheritByDefault = false)
 public class SmcReportMojo
     extends AbstractMavenReport
 {

@@ -447,7 +447,7 @@ public final class SmcMap
 
     // Use this to generate unique state IDs. Must use a static
     // integer to guarantee uniqueness across multiple maps.
-    private static int _stateId = 0;
+    public static int _stateId = 0;
 } // end of class SmcMap
 
 //

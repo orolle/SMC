@@ -34,6 +34,7 @@ package statemap;
 
 import java.io.Serializable;
 
+
 /**
  * Base class for all SMC-generated context states. This class
  * stores the state name and unique integer identifier.
@@ -42,7 +43,7 @@ import java.io.Serializable;
  */
 
 public abstract class State
-    implements Serializable
+  implements Serializable
 {
 //---------------------------------------------------------------
 // Member functions
@@ -51,6 +52,11 @@ public abstract class State
     //-----------------------------------------------------------
     // Constructors.
     //
+
+  protected State()
+  {
+    this(null, -1);
+  }
 
     /**
      * Creates a state instance with the given name and unique

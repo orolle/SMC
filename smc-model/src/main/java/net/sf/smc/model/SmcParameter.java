@@ -34,8 +34,6 @@
 
 package net.sf.smc.model;
 
-import java.io.PrintStream;
-
 /**
  * This class contains a transition parameter definition. This
  * includes the parameter name and type.

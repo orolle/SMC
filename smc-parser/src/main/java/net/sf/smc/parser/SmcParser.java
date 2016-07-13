@@ -1336,6 +1336,11 @@ public final class SmcParser
          * <a href="http://java.sun.com">Java</a>
          */
         JAVA ("{0}Context"),
+        
+                /**
+         * <a href="http://java.sun.com">Java</a>
+         */
+        RXJAVA ("{0}Context"),
 
         /**
          * <a href="http://www.tcl.tk">Tcl</a>

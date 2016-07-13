@@ -34,7 +34,6 @@
 
 package net.sf.smc.generator;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -1021,10 +1020,10 @@ public final class SmcJavaGenerator
             _source.println(" context)");
             _source.println("            {");
 
-            // Declare the "ctxt" local variable.
+            // Declare the "owner" local variable.
             _source.print("                ");
             _source.print(context);
-            _source.println(" ctxt = context.getOwner();");
+            _source.println(" owner = context.getOwner();");
             _source.println();
 
             // Generate the actions associated with this code.
@@ -1052,10 +1051,10 @@ public final class SmcJavaGenerator
             _source.println(" context)");
             _source.println("            {");
 
-            // Declare the "ctxt" local variable.
+            // Declare the "owner" local variable.
             _source.print("            ");
             _source.print(context);
-            _source.println(" ctxt = context.getOwner();");
+            _source.println(" owner = context.getOwner();");
             _source.println();
 
             // Generate the actions associated with this code.
@@ -1240,7 +1239,7 @@ public final class SmcJavaGenerator
         _source.print(_indent);
         _source.println("{");
 
-        // All transitions have a "ctxt" local variable.
+        // All transitions have a "owner" local variable.
         // 8/14/2003:
         // Do this only if there are any transition actions or
         // guard conditions which reference it.
@@ -1249,7 +1248,7 @@ public final class SmcJavaGenerator
             _source.print(_indent);
             _source.print("    ");
             _source.print(context);
-            _source.println(" ctxt = context.getOwner();");
+            _source.println(" owner = context.getOwner();");
         }
 
         _source.println();
@@ -1871,7 +1870,7 @@ public final class SmcJavaGenerator
         {
         	if ( action.isStatic( ) == false )
         	{
-	            _source.print("ctxt.");
+	            _source.print("owner.");
         	}
 	        _source.print(name);
 	        _source.print("(");

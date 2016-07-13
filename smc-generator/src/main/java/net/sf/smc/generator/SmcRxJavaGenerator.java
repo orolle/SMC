@@ -33,7 +33,6 @@
 //
 package net.sf.smc.generator;
 
-import java.io.PrintStream;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sf.smc.model.SmcAction;
 import net.sf.smc.model.SmcElement;
@@ -156,9 +154,7 @@ public final class SmcRxJavaGenerator
 
     // Include rx.Observable
     _source.println("import rx.Observable;");
-    _source.println("import rx.Completable;");
-    _source.println("import rx.Single;");
-
+    
     // Include Java imports for rx management
     _source.println("import java.util.ArrayList;");
     _source.println("import java.util.List;");
@@ -264,7 +260,7 @@ public final class SmcRxJavaGenerator
           _source.print("synchronized ");
         }
 
-        _source.print("Completable ");
+        _source.print("<T> Observable<T> ");
         _source.print(trans.getName());
         _source.print("(");
 
@@ -278,7 +274,7 @@ public final class SmcRxJavaGenerator
         _source.println(")");
         _source.println("    {");
 
-        _source.print("        return getState().");
+        _source.print("        return getState().<T>");
         _source.print(trans.getName());
         _source.print("(this");
 
@@ -301,7 +297,7 @@ public final class SmcRxJavaGenerator
         .collect(Collectors.toList()));
       _source.println(intent + "@FunctionalInterface");
       _source.println(intent + "public interface " + transition.getName() + " {");
-      _source.println(intent + intent + "Completable apply(" + parameter + ");");
+      _source.println(intent + intent + "<T> Observable<T> apply(" + parameter + ");");
       _source.println(intent + "}");
     }
 
@@ -361,7 +357,6 @@ public final class SmcRxJavaGenerator
       String functionName = Arrays.asList(v.getCondition().split("\\W")).stream().
         filter(s -> s.length() > 0 && !"owner".equals(s)).
         findFirst().orElse("");
-      System.out.println(functionName);
 
       if (functionName.length() > 0) {
         _source.println(intent + "@FunctionalInterface");
@@ -397,7 +392,7 @@ public final class SmcRxJavaGenerator
 
       _source.println(intent + "@FunctionalInterface");
       _source.println(intent + "public interface " + fname + " {");
-      _source.println(intent + intent + "Completable apply(" + parameter + ");");
+      _source.println(intent + intent + "<T> Observable<T> apply(" + parameter + ");");
       _source.println(intent + "}");
       _source.println(intent + "public " + fname + " " + fname + ";");
     });
@@ -470,31 +465,31 @@ public final class SmcRxJavaGenerator
     _source.println("    }");
     _source.println();
 
-    _source.print("    public Completable rxClearState()");
+    _source.print("    public <T> Observable<T> rxClearState()");
     _source.println("    {");
     _source.println("        super.clearState();");
-    _source.println("        return Completable.complete();");
+    _source.println("        return Observable.<T>empty();");
     _source.println("    }");
     _source.println();
 
-    _source.print("    public Completable rxSetState(statemap.State state)");
+    _source.print("    public <T> Observable<T> rxSetState(statemap.State state)");
     _source.println("    {");
     _source.println("        super.setState(state);");
-    _source.println("        return Completable.complete();");
+    _source.println("        return Observable.<T>empty();");
     _source.println("    }");
     _source.println();
 
-    _source.print("    public Completable rxPushState(statemap.State state)");
+    _source.print("    public <T> Observable<T> rxPushState(statemap.State state)");
     _source.println("    {");
     _source.println("        super.pushState(state);");
-    _source.println("        return Completable.complete();");
+    _source.println("        return Observable.<T>empty();");
     _source.println("    }");
     _source.println();
 
-    _source.print("    public Completable rxPopState()");
+    _source.print("    public <T> Observable<T> rxPopState()");
     _source.println("    {");
     _source.println("        super.popState();");
-    _source.println("        return Completable.complete();");
+    _source.println("        return Observable.<T>empty();");
     _source.println("    }");
     _source.println();
 
@@ -703,12 +698,12 @@ public final class SmcRxJavaGenerator
     _source.println("            super (name, id);");
     _source.println("        }");
     _source.println();
-    _source.print("        protected Completable entry(");
+    _source.print("        protected <T> Observable<T> entry(");
     _source.print(fsmClassName);
-    _source.println(" context) {return Completable.complete();}");
-    _source.print("        protected Completable exit(");
+    _source.println(" context) {return Observable.<T>empty();}");
+    _source.print("        protected <T> Observable<T> exit(");
     _source.print(fsmClassName);
-    _source.println(" context) {return Completable.complete();}");
+    _source.println(" context) {return Observable.<T>empty();}");
     _source.println();
 
     // Generate the default transition definitions.
@@ -717,7 +712,7 @@ public final class SmcRxJavaGenerator
 
       // Don't generate the Default transition here.
       if (transName.equals("Default") == false) {
-        _source.print("        protected Completable ");
+        _source.print("        protected <T> Observable<T> ");
         _source.print(transName);
         _source.print("(");
         _source.print(fsmClassName);
@@ -743,7 +738,7 @@ public final class SmcRxJavaGenerator
     }
 
     // Generate the overall Default transition for all maps.
-    _source.print("        protected Completable Default(");
+    _source.print("        protected <T> Observable<T> Default(");
     _source.print(fsmClassName);
     _source.println(" context)");
     _source.println("        {");
@@ -765,7 +760,7 @@ public final class SmcRxJavaGenerator
       _source.println();
     }
 
-    _source.println("            return Completable.error (");
+    _source.println("            return Observable.<T>error (");
     _source.println(
       "                new statemap.TransitionUndefinedException(");
     _source.println(
@@ -1100,7 +1095,7 @@ public final class SmcRxJavaGenerator
     if (actions != null && actions.size() > 0) {
       _source.println();
       _source.println("        @Override");
-      _source.print("        protected Completable entry(");
+      _source.print("        protected <T> Observable<T> entry(");
       _source.print(fsmClassName);
       _source.println(" context)");
       _source.println("            {");
@@ -1113,10 +1108,11 @@ public final class SmcRxJavaGenerator
 
       // Generate the actions associated with this code.
       _source.print("            ");
-      _source.println("return Completable.concat(");
+      _source.println("return Observable.<T>concat(");
 
       indent2 = _indent;
       _indent = "                ";
+      _source.print("Observable.<T>empty(),");
       Iterator<SmcAction> it;
       String sep;
       for (it = actions.iterator(), sep = "";
@@ -1139,7 +1135,7 @@ public final class SmcRxJavaGenerator
     if (actions != null && actions.size() > 0) {
       _source.println();
       _source.println("        @Override");
-      _source.print("        protected Completable exit(");
+      _source.print("        protected <T> Observable<T> exit(");
       _source.print(fsmClassName);
       _source.println(" context)");
       _source.println("            {");
@@ -1152,10 +1148,11 @@ public final class SmcRxJavaGenerator
 
       // Generate the actions associated with this code.
       _source.print("            ");
-      _source.println("return Completable.concat(");
+      _source.println("return Observable.<T>concat(");
 
       indent2 = _indent;
       _indent = "                ";
+      _source.print("Observable.<T>empty(),");
       Iterator<SmcAction> it;
       String sep;
       for (it = actions.iterator(), sep = "";
@@ -1310,7 +1307,7 @@ public final class SmcRxJavaGenerator
     _source.print(_indent);
     _source.println("@Override");
     _source.print(_indent);
-    _source.print("protected Completable ");
+    _source.print("protected <T> Observable<T> ");
     _source.print(transName);
     _source.print("(");
     _source.print(fsmClassName);
@@ -1338,11 +1335,11 @@ public final class SmcRxJavaGenerator
     }
 
     _source.print(_indent + "    ");
-    _source.println("List<Completable> transitions = new ArrayList<>();");
+    _source.println("List<Observable<T>> transitions = new ArrayList<>();");
     _source.print(_indent + "    ");
     _source.println("AtomicBoolean transitionCompleted = new AtomicBoolean(false);");
     _source.print(_indent + "    ");
-    _source.println("Completable transition = null;");
+    _source.println("Observable<T> transition = null;");
 
     _source.println();
 
@@ -1403,7 +1400,7 @@ public final class SmcRxJavaGenerator
       // Call the super class' transition method using
       // the "super" keyword and not the class name.
       _source.print(_indent);
-      _source.print("        super.");
+      _source.print("        super.<T>");
       _source.print(transName);
       _source.print("(context");
 
@@ -1411,10 +1408,8 @@ public final class SmcRxJavaGenerator
         _source.print(", ");
         _source.print(param.getName());
       }
-      _source.println(").toObservable()).");
+      _source.println(")).");
       
-      _source.print(_indent + "    ");
-      _source.println("toCompletable().");
       _source.print(_indent + "    ");
       _source.println("doOnCompleted(() -> transitionCompleted.set(true));");
       _source.print(_indent + "    ");
@@ -1427,7 +1422,7 @@ public final class SmcRxJavaGenerator
     }
 
     _source.print(_indent);
-    _source.println("    return Completable.concat(transitions);");
+    _source.println("    return Observable.<T>concat(Observable.from(transitions));");
     _source.print(_indent);
     _source.println("}");
 
@@ -1567,7 +1562,7 @@ public final class SmcRxJavaGenerator
     _source.print(_indent + "    ");
     _source.println("filter(b -> !transitionCompleted.get() && b).");
     _source.print(_indent + "    ");
-    _source.println("flatMap(v -> Completable.concat(");
+    _source.println("flatMap(v -> Observable.<T>concat(");
 
     // _source.println();
     // Dump out the exit actions - but only for the first
@@ -1727,11 +1722,9 @@ public final class SmcRxJavaGenerator
     }
 
     _source.print(indent3);
-    _source.println("Completable.complete()");
+    _source.println("Observable.<T>empty()");
     _source.print(indent3);
-    _source.println(").toObservable()).");
-    _source.print(_indent + "    ");
-    _source.println("toCompletable().");
+    _source.println(")).");
     _source.print(_indent + "    ");
     _source.println("doOnCompleted(() -> transitionCompleted.set(true));");
     _source.print(_indent + "    ");

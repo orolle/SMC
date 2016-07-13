@@ -16,13 +16,12 @@ package org.codehaus.mojo.smc;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.util.List;
+import org.apache.maven.plugin.logging.Log;
+import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.CommandLineException;
-import org.apache.maven.plugin.logging.Log;
-
-import java.util.List;
-import java.io.File;
 
 /**
  * Graphviz companion class :)

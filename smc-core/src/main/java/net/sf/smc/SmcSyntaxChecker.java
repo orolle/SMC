@@ -35,9 +35,7 @@
 package net.sf.smc;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import net.sf.smc.model.SmcAction;
 import net.sf.smc.model.SmcElement;
 import net.sf.smc.model.SmcElement.TransType;
 import net.sf.smc.model.SmcFSM;
