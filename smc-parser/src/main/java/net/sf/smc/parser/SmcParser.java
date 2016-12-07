@@ -1454,7 +1454,7 @@ public final class SmcParser
      * SMC currently supports 17 different target languages plus
      * one for an error code.
      */
-    public static final int LANGUAGE_COUNT = 18;
+    public static final int LANGUAGE_COUNT = 19;
 
 //---------------------------------------------------------------
 // Member Data

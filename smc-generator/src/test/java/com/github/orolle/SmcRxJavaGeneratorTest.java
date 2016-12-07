@@ -64,11 +64,12 @@ public class SmcRxJavaGeneratorTest extends TestCase {
       + " thankyou(); }\n"
       + "}\n"
       + "%%";
+    //System.out.println(srcSm);
+    
     diff_match_patch dmp = new diff_match_patch();
 
     String javaCode = smToJava("Turnstile", srcSm);
     String rxjavaCode = smToRxJava("Turnstile", srcSm);
-
     /*
     LinkedList<diff_match_patch.Diff> data = dmp.diff_main(javaCode, rxjavaCode);
     data.stream().

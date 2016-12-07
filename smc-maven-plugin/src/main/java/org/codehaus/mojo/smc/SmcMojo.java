@@ -186,6 +186,7 @@ public class SmcMojo
         arguments.add("-serial");
       }
       if(rx) {
+        arguments.add("-nocatch");
         arguments.add("-rxjava");
       } else {
         arguments.add("-java");
