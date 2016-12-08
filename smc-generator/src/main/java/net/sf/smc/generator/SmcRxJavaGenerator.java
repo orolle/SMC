@@ -379,8 +379,7 @@ public final class SmcRxJavaGenerator
         map(p -> p.getType()).
         collect(Collectors.toList())
       );
-      String fname = action.getName() + (variableTypes.length() == 0 ? ""
-        : "_" + variableTypes);
+      String fname = action.getName() /*+ (variableTypes.length() == 0 ? "" : "_" + variableTypes)*/;
 
       String parameter = String.join(", ",
         action.getArguments().stream().
@@ -392,7 +391,7 @@ public final class SmcRxJavaGenerator
 
       _source.println(intent + "@FunctionalInterface");
       _source.println(intent + "public interface " + fname + " {");
-      _source.println(intent + intent + "<T> Observable<T> apply(" + parameter + ");");
+      _source.println(intent + intent + "Observable<Object> apply(" + parameter + ");");
       _source.println(intent + "}");
       _source.println(intent + "public " + fname + " " + fname + ";");
     });
@@ -1753,7 +1752,7 @@ public final class SmcRxJavaGenerator
     if (action.isEmptyStateStack() == true) {
       _source.println("context.emptyStateStack();");
     } else {
-      _source.print("context.");
+      _source.print("(Observable<T>) context.");
       _source.print(name);
       _source.print(".apply");
       _source.print("(");
